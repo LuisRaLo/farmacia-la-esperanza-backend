@@ -9,6 +9,8 @@ async function bootstrap() {
   if (process.env.MODE === 'development') {
     Logger.debug('MODE: DEVELOPMENT');
 
+    app.enableCors();
+
     const config = new DocumentBuilder()
       .setTitle('Farmapp API')
       .setDescription('The Farmapp API description')
