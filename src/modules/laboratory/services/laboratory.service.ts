@@ -12,27 +12,38 @@ export class LaboratoryService {
     private readonly catalogoEstudiosRepository: Repository<CatalogoEstudiosEntity>,
   ) {}
 
-  async findAll(): Promise<CatalogoEstudiosEntity[]> {
-    return await this.catalogoEstudiosRepository.find();
-  }
-
-  async find(estudio: LaboratoryReqDTO): Promise<LaboratoryResDTO[]> {
-    const tryFind = await this.catalogoEstudiosRepository.query(
-      `SELECT * FROM catalogo_estudios WHERE nombre_estudio LIKE '%${estudio.nombre_estudio}%'`, 
+  //SEARCH ALL COINCIDENCES
+  public async searchAll(
+    payload: LaboratoryReqDTO,
+  ): Promise<LaboratoryResDTO | LaboratoryResDTO[]> {
+    const { nombre_estudio } = payload;
+    const data: any = this.catalogoEstudiosRepository.query(
+      `SELECT * FROM catalogo_estudios WHERE nombre_estudio LIKE '%${nombre_estudio}%'`,
     );
 
-    const tryFindEstudios = tryFind.map(estudio => {
-      return {
-        id: estudio.id,
-        nombre: estudio.nombre_estudio,
-        muestraBiologica: estudio.muestra_biologica,
-        entrega: estudio.entrega,
-        precioVenta: estudio.precio_venta,
-      };
-    });
+    const result: CatalogoEstudiosEntity[] = await data;
 
-    return tryFindEstudios;
-    
+    if (result.length > 0) {
+      return result.map((item) => {
+        return {
+          idEstudio: item.id,
+          nombre: item.nombre_estudio,
+          muestraBiologica: item.muestra_biologica,
+          entrega: item.entrega,
+          precioCompra: item.precio_compra,
+          precioVenta: item.precio_venta,
+        };
+      });
+    }
+
+    return {
+      idEstudio: 0,
+      nombre: '',
+      muestraBiologica: '',
+      entrega: '',
+      precioCompra: '',
+      precioVenta: '',
+    };
   }
   
 }
