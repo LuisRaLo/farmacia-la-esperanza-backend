@@ -1,8 +1,8 @@
 export class LaboratoryResDTO {
-  id: number;
-  nombre_estudio: string;
-  muestra_biologica: string;
+  idEstudio: number;
+  nombre: string;
+  muestraBiologica: string;
   entrega: string;
-  precio_compra: string;
-  precio_venta: string;
+  precioCompra: string;
+  precioVenta: string;
 }
