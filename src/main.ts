@@ -9,8 +9,6 @@ async function bootstrap() {
   if (process.env.MODE === 'development') {
     Logger.debug('MODE: DEVELOPMENT');
 
-    app.enableCors();
-
     const config = new DocumentBuilder()
       .setTitle('Farmapp API')
       .setDescription('The Farmapp API description')
@@ -21,6 +19,11 @@ async function bootstrap() {
 
     SwaggerModule.setup('api', app, document);
   }
+
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,POST',
+  })
 
   await app.listen(process.env.PORT || 3000);
 }

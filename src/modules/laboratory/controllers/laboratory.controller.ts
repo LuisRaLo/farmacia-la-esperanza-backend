@@ -16,20 +16,14 @@ import { LaboratoryService } from '../services/laboratory.service';
 export class LaboratoryController {
   constructor(private readonly laboratoryService: LaboratoryService) {}
 
-  @Get()
-  @ApiResponse({ status: 200, description: 'Laboratory created', type: LaboratoryResDTO })
-  @UsePipes(new ValidationPipe({ transform: true }))
-  public async getAllEstudios(): Promise<LaboratoryResDTO[]> {
-    return this.laboratoryService.findAll();
-  }
-
-  @Get('/:id')
+  @Post()
   @ApiBody({ type: LaboratoryReqDTO })
   @ApiResponse({ status: 200, description: 'Laboratory created', type: LaboratoryResDTO })
   @UsePipes(new ValidationPipe({ transform: true }))
   public async findEstudios(
     @Body() estudio: LaboratoryReqDTO,
   ): Promise<LaboratoryResDTO[]> {
-    return this.laboratoryService.find(estudio);
+    const tryFindEstudios = await this.laboratoryService.find(estudio);
+    return tryFindEstudios;
   }
 }
