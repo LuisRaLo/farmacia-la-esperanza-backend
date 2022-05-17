@@ -8,6 +8,5 @@ export class LaboratoryReqDTO {
     example: 'Estudio de prueba',
   })
   @IsString()
-  @MinLength(3)
   nombre_estudio: string;
 }
